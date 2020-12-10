@@ -24,6 +24,8 @@ local function set_up()
 end
 
 
+set_up()
+
 --[[
     Set-up process takes:
     origin (initial turtle position)
