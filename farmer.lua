@@ -53,7 +53,7 @@ local fLog
 local function log(string)
     if not fLog then
         if not fs.exists("/Logs/") then fs.makeDir("/Logs/") end
-        fLog = fs.open("/Logs/" .. os.date():gsub(" ", ""..".txt"), "a")
+        fLog = fs.open("/Logs/" .. os.date():gsub(" ", "")..".txt", "a")
         if not fLog then return end
     end
     fLog.write(string.."\n")
@@ -217,7 +217,7 @@ local function change_orientation()
         end
     else
         for i = 1, Right do
-            turtle.turnLeft()
+            turtle.turnRight()
             change_current_orientation(1)
         end
     end
@@ -228,7 +228,7 @@ local function proper_orientation()
     -- Quando em canto, se bCurrentDirection = 1, se z é impar Left se z é par Back
     if at_origin() == -1 then
         change_state(States.Idle)
-        iCurrentDirection = iCurrentDirection * -1
+        change_current_direction(iCurrentDirection * -1)
     else
         local bZ = (iZ % 2 == 0) -- If Z is a mean number
         if iCurrentDirection == Destiny.Forward then
@@ -273,6 +273,7 @@ local function main()
             print("Fuel level " .. iFuelAmount)
             print("CURRENT ORIENTATION " .. iCurrentOrientation)
             print("WANTED ORIENTATION " .. iWantedOrientation)
+            print("DESTINY IS " .. iCurrentDirection)
         end
         if iState == States.Working then
             proper_orientation()
