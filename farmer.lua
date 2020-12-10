@@ -3,6 +3,7 @@ local settings = settings
 
 local slot_count = 16
 local bOn = true
+local debug = true
 
 local States = {
     Idle = 0,
@@ -264,6 +265,13 @@ end
 
 local function main()
     while(bOn) do
+        if debug then
+            term.clear()
+            term.setCursorPos(1,1)
+            print("STATE IS " .. iState)
+            print("POSITION X " .. iX .. " Z " .. iZ)
+            print("Fuel level " .. iFuelAmount)
+        end
         if iState == States.Working then
             proper_orientation()
             change_orientation()
