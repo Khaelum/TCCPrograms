@@ -18,7 +18,7 @@ elseif args[1] == "setWidth" then
         settings.set("w", w)
         term.clear()
         term.setCursorPos(1,1)
-        term.write("Set width to " .. h.."\n")
+        term.write("Set width to " .. w.."\n")
     end
 elseif args[1] == "setHeight" then
     local h = tonumber(args[2])
