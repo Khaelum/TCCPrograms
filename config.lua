@@ -3,7 +3,7 @@ local args = {...}
 local function Write_Screen(string)
     term.clear()
     term.setCursorPos(1,1)
-    term.write("Set Origin!!\n")
+    term.write(string)
     term.setCursorPos(1,2)
 end
 
