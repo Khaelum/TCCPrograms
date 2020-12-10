@@ -135,7 +135,9 @@ local function change_current_direction(dir)
 end
 
 local function change_current_orientation(offset)
-    iCurrentOrientation = offset
+    iCurrentOrientation = iCurrentOrientation + offset
+    if iCurrentOrientation <= 0 then iCurrentOrientation = 4 end
+    if iCurrentOrientation >= 5 then iCurrentOrientation = 1 end
     save_current_orientation()
 end
 
@@ -226,38 +228,41 @@ end
 local function proper_orientation()
     -- Quando não em canto, forward
     -- Quando em canto, se bCurrentDirection = 1, se z é impar Left se z é par Back
-    if at_origin() == -1 then
-        change_state(States.Idle)
-        change_current_direction(iCurrentDirection * -1)
-    else
-        local bZ = (iZ % 2 == 0) -- If Z is a mean number
-        if iCurrentDirection == Destiny.Forward then
-            if at_corner() == Corner.Left then
-                if bZ then
-                    change_wanted_orientation(Directions.Left)
-                else
-                    change_wanted_orientation(Directions.Front)
-                end
-            elseif at_corner() == Corner.Right then
-                if bZ then
-                    change_wanted_orientation(Directions.Back)
-                else
-                    change_wanted_orientation(Directions.Left)
-                end
+    local bZ = (iZ % 2 == 0) -- If Z is a mean number
+    if iCurrentDirection == Destiny.Forward then
+        if at_origin() == -1 then
+            change_state(States.Idle)
+            change_current_direction(iCurrentDirection * -1)
+        end
+        if at_corner() == Corner.Left then
+            if bZ then
+                change_wanted_orientation(Directions.Left)
+            else
+                change_wanted_orientation(Directions.Front)
             end
-        elseif iCurrentDirection == Destiny.Backward then
-            if at_corner() == Corner.Left then
-                if bZ then
-                    change_wanted_orientation(Directions.Front)
-                else
-                    change_wanted_orientation(Directions.Right)
-                end
-            elseif at_corner() == Corner.Right then
-                if bZ then
-                    change_wanted_orientation(Directions.Right)
-                else
-                    change_wanted_orientation(Directions.Back)
-                end
+        elseif at_corner() == Corner.Right then
+            if bZ then
+                change_wanted_orientation(Directions.Back)
+            else
+                change_wanted_orientation(Directions.Left)
+            end
+        end
+    elseif iCurrentDirection == Destiny.Backward then
+        if at_origin() == 1 then
+            change_state(States.Idle)
+            change_current_direction(iCurrentDirection * -1)
+        end
+        if at_corner() == Corner.Left then
+            if bZ then
+                change_wanted_orientation(Directions.Front)
+            else
+                change_wanted_orientation(Directions.Right)
+            end
+        elseif at_corner() == Corner.Right then
+            if bZ then
+                change_wanted_orientation(Directions.Right)
+            else
+                change_wanted_orientation(Directions.Back)
             end
         end
     end
