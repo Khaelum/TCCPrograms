@@ -271,6 +271,8 @@ local function main()
             print("STATE IS " .. iState)
             print("POSITION X " .. iX .. " Z " .. iZ)
             print("Fuel level " .. iFuelAmount)
+            print("CURRENT ORIENTATION " .. iCurrentOrientation)
+            print("WANTED ORIENTATION " .. iWantedOrientation)
         end
         if iState == States.Working then
             proper_orientation()
@@ -280,7 +282,7 @@ local function main()
             sleep(1) -- Waits 1 Second per refuel attempt
             check_fuel()
         elseif iState == States.Idle then
-            sleep(20000) -- Waits 20 seconds when IDLE
+            sleep(5) -- Waits 20 seconds when IDLE
             change_state(States.Working)
         end
     end
