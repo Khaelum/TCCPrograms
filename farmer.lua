@@ -19,8 +19,7 @@ local function set_up()
     term.write("Input farming area length\n")
     local input = read()
     input = tonumber(input)
-    if input then input = input % 1 end
-    term.write(input)
+    if input then input = math.ceil(input) else set_up() end
 end
 
 
