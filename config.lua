@@ -32,13 +32,30 @@ elseif args[1] == "setHeight" then
 elseif args[1] == "reset" then
     settings.set("x", 0)
     settings.set("z", 0)
-    settings.set("w", 20)
-    settings.set("h", 10)
+    settings.set("w", 9)
+    settings.set("h", 9)
     settings.set("state", 0)
     settings.set("currentOrientation", 1)
     settings.set("currentDirection", 1)
     settings.set("wantedOrientation", 1)
     Write_Screen("Reset!!")
 else
-    Write_Screen("Invalid usage!")
+    if args[1] and not args[2] then
+        local v = settings.get(args[1])
+        if v then 
+            Write_Screen("value for " .. args[1] .. " is " .. v)
+        end
+    elseif args[2] then
+        local n = tonumber(args[2])
+        local bT = args[2]:lower():match("true") == "true"
+        local bF = args[2]:lower():match("false") == "false"
+        settings.set(args[1], args[1])
+        if n then settings.set(args[1], n) end
+        if bT then settings.set(args[1], true) end
+        if bF then settings.set(args[1], false) end
+        if not (n or bT or bF) then settings.set(args[1], args[1]) end
+        Write_Screen("Set " .. args[1] .. " to " .. tostring(settings.get(args[1])))
+    end
 end
+
+settings.save("farmer")
