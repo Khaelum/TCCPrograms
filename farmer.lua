@@ -154,7 +154,7 @@ local function check_fuel()
         for i = 1, slot_count do
             turtle.select(i)
             if turtle.refuel() then 
-                change_state(States.Working)
+                return change_state(States.Working)
             end
         end
         change_state(States.Refuel)
@@ -201,6 +201,11 @@ local function work_and_move()
     end
     if iFuelAmount <= 0 then
         if not check_fuel() then return end
+    end
+    if iCurrentOrientation == Directions.Front and iX + 1 > iWidth then return
+    elseif iCurrentOrientation == Directions.Back and iX - 1 < 0 then return
+    elseif iCurrentOrientation == Directions.Left and iZ + 1 > iHeight then return
+    elseif iCurrentOrientation == Directions.Right and iZ - 1 < 0 then return
     end
     if turtle.forward() then
         iFuelAmount = iFuelAmount - 1
